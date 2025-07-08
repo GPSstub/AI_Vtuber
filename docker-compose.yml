@@ -1,0 +1,27 @@
+services:
+  aivtuber:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aivtuber_container
+    ports:
+      - "8000:8000"
+    volumes:
+      # 필요한 소스 코드 및 설정 파일만 마운트하여 실시간 변경사항을 반영합니다.
+      - ./main_app.py:/app/main_app.py
+      - ./llm_service.py:/app/llm_service.py
+      - ./config.ini:/app/config.ini
+      - ./prompt_template.j2:/app/prompt_template.j2
+      - ./utils:/app/utils
+      # 모델 및 임시 오디오 폴더는 데이터 유지를 위해 마운트합니다.
+      - ./models:/app/models
+      - ./temp_audio:/app/temp_audio
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    stdin_open: true
+    tty: true
