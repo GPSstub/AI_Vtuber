@@ -3,4 +3,4 @@ AI vtuber project
 
 WE USE DOCKER 
 
-YEEEEEES SIR！
+but do not use llama_cpp_py
